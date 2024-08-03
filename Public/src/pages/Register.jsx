@@ -1,13 +1,35 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { Link } from 'react-router-dom';
-import styled from "styled-components";
+import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 const Register = () => {
     const[user,setUser]=useState({username:"",email:"",password:"",confirmPassword:""})
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        handleFormValidation();
+        if (handleFormValidation()) {
+            try {
+                   await axios.post('http://localhost:3000/user/register', {
+                    username: user.username,
+                    email: user.email,
+                    password:user.password
+                })  
+                toast.success("User register Successfully", {
+                    position: "bottom-right",
+                    autoClose: 8000,
+                    pauseOnHover: true,
+                    theme:"dark"
+                })
+            }
+            catch (error) {
+                toast.error("Registration failed", {
+                    position: "bottom-right",
+                    autoClose: 8000,
+                    pauseOnHover: true,
+                    theme:"dark"
+                })
+            }
+       }
        
     }
     const handleChange = (e) => {
@@ -78,25 +100,7 @@ const Register = () => {
   </div>
   )
 }
-// const FormsContainer = styled.button`
-// width:100%;
-// height:100%; 
-// display:flex;
-// flex-direction:column;
-// justify-content:center;
-// gap:1rem;
 
-// //  background-color: #131324;
-//   border-radius: 2px;
-//   .brand{
-//   display:flex;
-//   align-item:center;
-//   justify-content:center;
-//   img{
-//   height:8rem;
-//   border-radius:50%
-//   }
-//   }
 
 
 export default Register

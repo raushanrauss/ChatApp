@@ -1,21 +1,20 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
-const { Schema } = mongoose;
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        require: true,
-        
+        required: true,  // Corrected this field
     },
     email: {
         type: String,
-        require: true,
-        
+        required: true,  // Corrected this field
     },
     password: {
         type: String,
-        require:true
+        required: true   // Corrected this field
     }
-})
-const userModel = mongoose.model("User", userSchema)
-module.exports={ userModel, userSchema };
+}, { timestamps: true });  // Added timestamps for createdAt and updatedAt
+
+const userModel = mongoose.model("User", userSchema);
+
+module.exports = { userModel, userSchema };
